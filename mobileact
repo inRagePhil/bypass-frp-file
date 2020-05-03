@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo “Running mobile act daemon…”
+launchctl unload /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
+launchctl load /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
+echo “Attempted to reload mobile act…”
+
+#echo “Attempted to kill backboardd…”
+
+echo “Done. Quitting.”
+
+exit
