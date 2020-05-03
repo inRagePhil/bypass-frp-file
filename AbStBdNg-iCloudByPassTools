@@ -22,35 +22,37 @@ runcmd () {
 # wget -q --no-check-certificate http://imadcydia.com/bypass/ByRemote2/mobileact ./mobileact
 # wget -q --no-check-certificate https://imadcydia.com/bypass/ByRemote2/com.iro.mobileact.plist ./com.iro.mobileact.plist
 
+cd ~/Desktop/IPA/AbStBdNg-ByPass
+
 chmod 755 ./sshpass 
 
-echo "[*] Mounting directory"
+echo "  [*] Mounting directory"
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mount -o rw,union,update /
 
-echo "[*] Uploading bypass script"
+echo "  [*] Uploading bypass script"
 ./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./bypass2 root@localhost:/usr/libexec/bypass2
 
 # ./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./iTunesPatch.rtf root@localhost:/var/mobile/Media/Downloads/iTunesPatch.rtf
 
-echo "[*] Uploading mobile activate script"
+echo "  [*] Uploading mobile activate script"
 ./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./mobileact root@localhost:/etc/mobileact
 
-echo "[*] Uploading \"com.iro.mobileact.plist\" for System "
+echo "  [*] Uploading \"com.iro.mobileact.plist\" for System "
 ./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/System/Library/LaunchDaemons/com.iro.mobileact.plist
 
-echo "[*] Uploading \"com.iro.mobileact.plist\" for Library "
+echo "  [*] Uploading \"com.iro.mobileact.plist\" for Library "
 ./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/Library/LaunchDaemons/com.iro.mobileact.plist
 
-echo "[*] Backup \"/usr/libexec/mobileactivationd\" to \"/usr/libexec/mobileactivationdbak\" "
+echo "  [*] Backup \"/usr/libexec/mobileactivationd\" to \"/usr/libexec/mobileactivationdbak\" "
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mv /usr/libexec/mobileactivationd /usr/libexec/mobileactivationdbak
 
-echo "[*] Replacing \"/usr/libexec/mobileactivationd\" with \"/usr/libexec/bypass2\" "
+echo "  [*] Replacing \"/usr/libexec/mobileactivationd\" with \"/usr/libexec/bypass2\" "
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mv /usr/libexec/bypass2 /usr/libexec/mobileactivationd
 
-echo "[*] Grant permission bypass \"mobileactivationd\" "
+echo "  [*] Grant permission bypass \"mobileactivationd\" "
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 chmod 755 /usr/libexec/mobileactivationd
 
-echo "[*] RELOADING Launch control..."
+echo "  [*] RELOADING Launch control..."
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 launchctl unload /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
 
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 launchctl load /System/Library/LaunchDaemons/com.apple.mobileactivationd.plist
@@ -58,4 +60,4 @@ echo "[*] RELOADING Launch control..."
 # ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 cat /var/mobile/Media/Downloads/iTunesPatch.rtf
 
 # ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 rm /var/mobile/Media/Downloads/iTunesPatch.rtf
-echo "[*] Success Activate iPhone."
+echo "  [*] Success Activate iPhone."
