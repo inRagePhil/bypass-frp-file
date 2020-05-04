@@ -1,5 +1,5 @@
 #!/bin/bash
-clear 
+clear
 rm -rf ~/.ssh/known_hosts
 echo "==========> Setting up SSH over USB..."
 iproxy 2233 44 2> /dev/null &
@@ -24,7 +24,7 @@ runcmd () {
 
 cd ~/Desktop/IPA/AbStBdNg-ByPass
 
-chmod 755 ./sshpass 
+chmod 755 ./sshpass
 
 echo "  [*] Mounting directory"
 ./sshpass -p "alpine" ssh -o StrictHostKeyChecking=no root@localhost -p 2233 mount -o rw,union,update /
